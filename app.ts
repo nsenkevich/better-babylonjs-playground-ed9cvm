@@ -2,6 +2,7 @@ import * as BABYLON from 'babylonjs';
 
 import 'babylonjs-loaders';
 import { FloorPlan } from './core/FloorPlan';
+import { RoofPlan } from './core/RoofPlan';
 import SceneHelper from './core/SceneHelper';
 
 export interface Opening {
@@ -41,7 +42,7 @@ export default class App {
     SceneHelper.setupCamera(scene, arcRotate);
     SceneHelper.setupLight(scene);
 
-    const data = this.createData();
+    const floorData = this.createFloorData();
     const opt = {
       interiorUV: new BABYLON.Vector4(0, 0, 1, 1),
       exteriorUV: new BABYLON.Vector4(0, 0, 1, 1),
@@ -51,11 +52,22 @@ export default class App {
     };
     //this.extending();
 
-    new FloorPlan().build(data, 0.3, 3.9, opt, scene);
+    const ply = 0.3;
+    const height = 3.9;
+    new FloorPlan().build(floorData, ply, height, opt, scene);
+
+    const roofData = this.createRoofData(
+      ply,
+      height,
+      floorData.map((w) => w.corner)
+    );
+
+    new RoofPlan().build(roofprint, apexes, planes, 2, height, 5.6, scene);
+
     return scene;
   }
 
-  public createData(): Wall[] {
+  public createFloorData(): Wall[] {
     const baseData = [
       -3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 2, 1, 2, 3, -3, 3,
     ];
@@ -91,5 +103,34 @@ export default class App {
     walls[5].doorSpaces = [doorSpace];
 
     return walls;
+  }
+
+  public createRoofData(ply, height, corners, overhang = 0.2) {
+    const roofApexData = [0, -2, 0, -0.5, 0, 2, 4.5, -0.5];
+
+    const roofPlan = new RoofPlan();
+    var wholeRoofprint = roofPlan.roofprint(corners, ply + overhang, height);
+
+    var ceiling = roofPlan.roofFloor(wholeRoofprint);
+
+    let apexes = [];
+    for (var i = 0; i < roofApexData.length / 2; i++) {
+      apexes.push(
+        new BABYLON.Vector2(roofApexData[2 * i], roofApexData[2 * i + 1])
+      );
+    }
+
+    var planes = [
+      ['C0', 'C1', 'A0'],
+      ['C1', 'C2', 'A0'],
+      ['C2', 'C3', 'A0'],
+      ['C3', 'A1', 'A0'],
+      ['C3', 'C4', 'A3', 'A1'],
+      ['C4', 'C5', 'A3'],
+      ['C5', 'C6', 'A1', 'A3'],
+      ['C6', 'C7', 'A2', 'A1'],
+      ['C7', 'C8', 'A2'],
+      ['C8', 'C0', 'A0', 'A2'],
+    ];
   }
 }

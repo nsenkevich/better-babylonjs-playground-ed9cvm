@@ -56,6 +56,7 @@ export class WallPolygonMeshBuilder extends BABYLON.PolygonMeshBuilder {
     return { positions: positions, indices: indices };
   };
 }
+
 export class FloorPlan {
   public build(
     walls: Wall[],
