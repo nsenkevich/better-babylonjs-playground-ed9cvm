@@ -10,6 +10,7 @@ export interface Opening {
   width: number;
   height: number;
 }
+
 export interface OpeningSpace {
   opening: Opening;
   left: number;
@@ -48,7 +49,7 @@ export default class App {
     SceneHelper.setupLight(scene);
 
     const corners = this.createCorners([
-      -3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 2, 1, 2, 3, -3, 3,
+      -3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 3, 1, 3, 3, -3, 3,
     ]);
     const floorData = this.addWallsAndOpenings(corners);
     const opt = {
@@ -106,7 +107,7 @@ export default class App {
     const mainRoof = roofPlan.buildRoof(
       mainRoofprint,
       mainRoofData,
-      2,
+      3,
       height,
       5.6,
       scene
