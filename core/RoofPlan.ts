@@ -1,6 +1,15 @@
+export interface RoofData {
+  apexes: BABYLON.Vector2[];
+  planes: string[][];
+}
+
 export class RoofPlan {
   //The roofprint is the footprint of the roof, it follows the floor plan of the house but is extended by the overlap
-  roofprint(corners, overlap, height) {
+  roofprint(
+    corners: BABYLON.Vector3[],
+    overlap: number,
+    height: number
+  ): BABYLON.Vector3[] {
     var outerData = [];
     var angle = 0;
     var direction = 0;
@@ -18,7 +27,7 @@ export class RoofPlan {
             (line.length() * nextLine.length())
         );
       direction = BABYLON.Vector3.Cross(nextLine, line).normalize().y;
-      lineNormal = new BABYLON.Vector3(line.z, 0, -1 * line.x).normalize();
+      let lineNormal = new BABYLON.Vector3(line.z, 0, -1 * line.x).normalize();
       line.normalize();
       outerData[(c + 1) % nbCorners] = corners[(c + 1) % nbCorners]
         .add(lineNormal.scale(overlap))
@@ -35,14 +44,17 @@ export class RoofPlan {
   }
 
   //The roof floor (or top ceiling of the house) created from the roofprint of the house
-  roofFloor(roofprint) {
+  buildCeiling(
+    roofprint: BABYLON.Vector3[],
+    scene: BABYLON.Scene
+  ): BABYLON.Mesh {
     var height = roofprint[0].y;
     var floor = BABYLON.MeshBuilder.CreatePolygon(
       'polygon',
       {
         shape: roofprint,
         updatable: true,
-        sideOrientation: BABYLON.Mesh.BACKSIDE,
+        sideOrientation: BABYLON.Mesh.DOUBLESIDE,
       },
       scene
     );
@@ -55,10 +67,18 @@ export class RoofPlan {
   }
 
   //Creates the mesh roof structure
-  build(roofprint, apexes, planes, rise, height, uvbase, scene) {
+  buildRoof(
+    roofprint: BABYLON.Vector3[],
+    roofData: RoofData,
+    rise: number,
+    height: number,
+    uvbase: number,
+    scene: BABYLON.Scene
+  ): BABYLON.Mesh {
     var positions = [];
     var uvs = [];
-
+    let apexes = roofData.apexes;
+    let planes = roofData.planes;
     var offset = roofprint.length;
     var vidx = [];
     var currentv = [];

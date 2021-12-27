@@ -1,6 +1,7 @@
 import * as BABYLON from 'babylonjs';
 
 import 'babylonjs-loaders';
+import { AreaCalc } from './core/AreaCalc';
 import { FloorPlan } from './core/FloorPlan';
 import { RoofPlan } from './core/RoofPlan';
 import SceneHelper from './core/SceneHelper';
@@ -28,6 +29,10 @@ export interface Options {
   exteriorColor: BABYLON.Color4;
   interior: boolean;
 }
+export interface RoofData {
+  apexes: BABYLON.Vector2[];
+  planes: string[][];
+}
 
 export default class App {
   /**
@@ -38,47 +43,98 @@ export default class App {
     const scene = new BABYLON.Scene(engine);
     //scene.createDefaultEnvironment({});
 
-    const arcRotate: boolean = false;
+    const arcRotate: boolean = true;
     SceneHelper.setupCamera(scene, arcRotate);
     SceneHelper.setupLight(scene);
 
-    const floorData = this.createFloorData();
+    const corners = this.createCorners([
+      -3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 2, 1, 2, 3, -3, 3,
+    ]);
+    const floorData = this.addWallsAndOpenings(corners);
     const opt = {
-      interiorUV: new BABYLON.Vector4(0, 0, 1, 1),
-      exteriorUV: new BABYLON.Vector4(0, 0, 1, 1),
+      interiorUV: new BABYLON.Vector4(0.167, 0, 1, 1),
+      exteriorUV: new BABYLON.Vector4(0, 0, 0.16, 1),
       interiorColor: new BABYLON.Color4(1, 1, 1, 1),
       exteriorColor: new BABYLON.Color4(1, 1, 1, 1),
       interior: false,
     };
-    //this.extending();
 
     const ply = 0.3;
     const height = 3.9;
-    new FloorPlan().build(floorData, ply, height, opt, scene);
+    const masonry = new FloorPlan().build(floorData, ply, height, opt, scene);
 
-    const roofData = this.createRoofData(
-      ply,
-      height,
-      floorData.map((w) => w.corner)
+    // masonry.material = new BABYLON.StandardMaterial("", scene);
+    // masonry.material.diffuseTexture = new BABYLON.Texture("http://i.imgur.com/88fOIk3.jpg", scene);
+
+    const mainCorners = this.createCorners([
+      -3, -2, -1, -4, 1, -4, 3, -2, 3, 3, -3, 3,
+    ]);
+    const extensionCorners = this.createCorners([0, -2, 5, -2, 5, 1, 0, 1]);
+    const mainPlanes = [
+      ['C0', 'C1', 'A0'],
+      ['C1', 'C2', 'A0'],
+      ['C2', 'C3', 'A0'],
+      ['C3', 'C4', 'A1', 'A0'],
+      ['C4', 'C5', 'A1'],
+      ['C5', 'C0', 'A0', 'A1'],
+    ];
+    const mainRoofData = this.createRoofData([0, -2, 0, 2], mainPlanes);
+
+    const extPlanes = [
+      ['C0', 'C1', 'A1', 'A0'],
+      ['C1', 'C2', 'A1'],
+      ['C2', 'C3', 'A0', 'A1'],
+    ];
+    const extensionRoofData = this.createRoofData(
+      [0, -0.5, 4.5, -0.5],
+      extPlanes
     );
 
-    new RoofPlan().build(roofprint, apexes, planes, 2, height, 5.6, scene);
+    const roofPlan = new RoofPlan();
+    const roofprint = roofPlan.roofprint(corners, ply + 0.2, height);
+    const floorprint = roofPlan.roofprint(corners, ply, 0);
+    const floor = roofPlan.buildCeiling(floorprint, scene);
+    roofPlan.buildCeiling(roofprint, scene);
+
+    const mainRoofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
+    const extRoofprint = roofPlan.roofprint(
+      extensionCorners,
+      ply + 0.2,
+      height
+    );
+
+    const mainRoof = roofPlan.buildRoof(
+      mainRoofprint,
+      mainRoofData,
+      2,
+      height,
+      5.6,
+      scene
+    );
+    const extRoof = roofPlan.buildRoof(
+      extRoofprint,
+      extensionRoofData,
+      2,
+      height,
+      5.6,
+      scene
+    );
+
+    // roof.material = new BABYLON.StandardMaterial("tiles", scene);
+    // roof.material.diffuseTexture = new BABYLON.Texture("https://i.imgur.com/9SH16GZ.jpg", scene);
 
     return scene;
   }
 
-  public createFloorData(): Wall[] {
-    const baseData = [
-      -3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 2, 1, 2, 3, -3, 3,
-    ];
-
+  public createCorners(data: number[]): BABYLON.Vector3[] {
     let corners = [];
-    for (let b = 0; b < baseData.length / 2; b++) {
-      corners.push(
-        new BABYLON.Vector3(baseData[2 * b], 0, baseData[2 * b + 1])
-      );
+    for (let b = 0; b < data.length / 2; b++) {
+      corners.push(new BABYLON.Vector3(data[2 * b], 0, data[2 * b + 1]));
     }
+    return corners;
+  }
 
+  public addWallsAndOpenings(corners: BABYLON.Vector3[]): Wall[] {
     var door = { width: 1, height: 1.8 };
     var doorSpace = { opening: door, left: 1, top: 0 };
 
@@ -105,14 +161,7 @@ export default class App {
     return walls;
   }
 
-  public createRoofData(ply, height, corners, overhang = 0.2) {
-    const roofApexData = [0, -2, 0, -0.5, 0, 2, 4.5, -0.5];
-
-    const roofPlan = new RoofPlan();
-    var wholeRoofprint = roofPlan.roofprint(corners, ply + overhang, height);
-
-    var ceiling = roofPlan.roofFloor(wholeRoofprint);
-
+  public createRoofData(roofApexData: number[], planes: string[][]): RoofData {
     let apexes = [];
     for (var i = 0; i < roofApexData.length / 2; i++) {
       apexes.push(
@@ -120,17 +169,6 @@ export default class App {
       );
     }
 
-    var planes = [
-      ['C0', 'C1', 'A0'],
-      ['C1', 'C2', 'A0'],
-      ['C2', 'C3', 'A0'],
-      ['C3', 'A1', 'A0'],
-      ['C3', 'C4', 'A3', 'A1'],
-      ['C4', 'C5', 'A3'],
-      ['C5', 'C6', 'A1', 'A3'],
-      ['C6', 'C7', 'A2', 'A1'],
-      ['C7', 'C8', 'A2'],
-      ['C8', 'C0', 'A0', 'A2'],
-    ];
+    return { apexes, planes };
   }
 }
