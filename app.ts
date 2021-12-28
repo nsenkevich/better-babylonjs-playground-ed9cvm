@@ -58,7 +58,7 @@ export default class App {
     const bridge = new Bridge();
     const demo2 = bridge.buildCorners();
     const corners = this.createCorners(demo2);
-    const floorData = this.addWallsAndOpenings(3.9);
+    const floorData = this.addWallsAndOpenings(2.7);
     const opt = {
       interiorUV: new BABYLON.Vector4(0.167, 0, 1, 1),
       exteriorUV: new BABYLON.Vector4(0, 0, 0.16, 1),
@@ -77,20 +77,7 @@ export default class App {
       scene
     );
 
-    // const mainCorners = this.createCorners([
-    //   -3, -2, -1, -4, 1, -4, 3, -2, 3, 3, -3, 3,
-    // ]);
     // const extensionCorners = this.createCorners([0, -2, 5, -2, 5, 1, 0, 1]);
-    // const mainPlanes = [
-    //   ['C0', 'C1', 'A0'],
-    //   ['C1', 'C2', 'A0'],
-    //   ['C2', 'C3', 'A0'],
-    //   ['C3', 'C4', 'A1', 'A0'],
-    //   ['C4', 'C5', 'A1'],
-    //   ['C5', 'C0', 'A0', 'A1'],
-    // ];
-    // const mainRoofData = this.createRoofData([0, -2, 0, 2], mainPlanes);
-
     // const extPlanes = [
     //   ['C0', 'C1', 'A1', 'A0'],
     //   ['C1', 'C2', 'A1'],
@@ -101,27 +88,53 @@ export default class App {
     //   extPlanes
     // );
 
-    // const roofPlan = new RoofPlan();
+    const roofPlan = new RoofPlan();
     // const roofprint = roofPlan.roofprint(corners, ply + 0.2, height);
     // const floorprint = roofPlan.roofprint(corners, ply, 0);
     // const floor = roofPlan.buildCeiling(floorprint, scene);
     // roofPlan.buildCeiling(roofprint, scene);
 
-    // const mainRoofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
     // const extRoofprint = roofPlan.roofprint(
     //   extensionCorners,
     //   ply + 0.2,
     //   height
     // );
 
-    // const mainRoof = roofPlan.buildRoof(
-    //   mainRoofprint,
-    //   mainRoofData,
-    //   3,
-    //   height,
-    //   5.6,
-    //   scene
-    // );
+    // const mainPlanes = [
+    //   ['C0', 'C1', 'A0'],
+    //   ['C1', 'C2', 'A0'],
+    //   ['C2', 'C3', 'A0'],
+    //   ['C3', 'C4', 'A1', 'A0'],
+    //   ['C4', 'C5', 'A1'],
+    //   ['C5', 'C0', 'A0', 'A1'],
+    // ];
+
+    // const mainCorners = this.createCorners([
+    //   -3, -2, -1, -4, 1, -4, 3, -2, 3, 3, -3, 3,
+    // ]);
+
+    const mainPlanes = [
+      ['C0', 'C1', 'A0'],
+      ['C1', 'C2', 'A0'],
+      ['C2', 'C3', 'A0'],
+      ['C3', 'C0', 'A0'],
+    ];
+    let mainCorners = [];
+    for (const wb of bridge.data.wallData) {
+      mainCorners.push(
+        new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
+      );
+    }
+    const mainRoofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
+    const mainRoofData = this.createRoofData([0, -2, 0, 2], mainPlanes);
+    const mainRoof = roofPlan.buildRoof(
+      mainRoofprint,
+      mainRoofData,
+      3,
+      height,
+      5.6,
+      scene
+    );
     // const extRoof = roofPlan.buildRoof(
     //   extRoofprint,
     //   extensionRoofData,
@@ -167,10 +180,12 @@ export default class App {
       };
       for (const obj of bridge.data.objData) {
         if (bridge.objectOnWall(obj, [wb])) {
+          const objectFromBottom = (+obj.height + +obj.sillHeight) / 100;
+          console.log(objectFromBottom);
           const openSpace = {
-            opening: { width: obj.size / 100, height: +obj.height / 100 },
+            opening: { width: +obj.size / 100, height: +obj.height / 100 },
             left: bridge.measure(wb.start, { x: obj.x, y: obj.y }) / 100,
-            top: 0.4,
+            top: height - objectFromBottom,
           };
           wall.windowSpaces.push(openSpace);
         }

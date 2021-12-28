@@ -1,680 +1,658 @@
 export class Bridge {
   data = {
-    "objData": [
-        {
-            "family": "inWall",
-            "class": "doorWindow",
-            "type": "simple",
-            "x": 573,
-            "y": 458,
-            "angle": 360,
-            "angleSign": 1,
-            "limit": [
-                {
-                    "x": 543,
-                    "y": 458
-                },
-                {
-                    "x": 603,
-                    "y": 458
-                }
-            ],
-            "hinge": "normal",
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
-            },
-            "scale": {
-                "x": 1,
-                "y": 1
-            },
-            "size": 60,
-            "thick": 20,
-            "width": "1.00",
-            "fill": "#eee",
-            "bbox": {
-                "x": 543,
-                "y": 388,
-                "width": 60,
-                "height": 80,
-                "top": 388,
-                "right": 603,
-                "bottom": 468,
-                "left": 543
-            },
-            "realBbox": [
-                {
-                    "x": 543,
-                    "y": 448
-                },
-                {
-                    "x": 603,
-                    "y": 448
-                },
-                {
-                    "x": 603,
-                    "y": 468
-                },
-                {
-                    "x": 543,
-                    "y": 468
-                }
-            ],
-            "params": {
-                "bindBox": false,
-                "move": false,
-                "resize": true,
-                "resizeLimit": {
-                    "width": {
-                        "min": 40,
-                        "max": 120
-                    },
-                    "height": {
-                        "min": false,
-                        "max": false
-                    },
-                    "columnHeight": {
-                        "min": false,
-                        "max": false
-                    }
-                },
-                "rotate": false,
-                "columnHeight": false,
-                "beamHeight": false,
-                "waistSlabThickness": false,
-                "stepsBase": false,
-                "stepsHeight": false,
-                "slabFloorOffsetHeight": false,
-                "typeColumn": false,
-                "typeBeam": false,
-                "typeSlabFloor": false,
-                "demolish": false
-            },
-            "height": "200",
-            "up": [
-                {
-                    "x": 543,
-                    "y": 468,
-                    "distance": 10
-                },
-                {
-                    "x": 603,
-                    "y": 468,
-                    "distance": 10
-                }
-            ],
-            "down": [
-                {
-                    "x": 543,
-                    "y": 448,
-                    "distance": 10
-                },
-                {
-                    "x": 603,
-                    "y": 448,
-                    "distance": 10
-                }
-            ],
-            "sillHeight": "20",
-            "area": "3.33"
+    objData: [
+      {
+        family: 'inWall',
+        class: 'doorWindow',
+        type: 'double',
+        x: 810,
+        y: 194,
+        angle: 180,
+        angleSign: 0,
+        limit: [
+          {
+            x: 765,
+            y: 194,
+          },
+          {
+            x: 855,
+            y: 194,
+          },
+        ],
+        hinge: 'normal',
+        graph: {
+          '0': {},
+          context: {},
+          length: 1,
         },
-        {
-            "family": "inWall",
-            "class": "doorWindow",
-            "type": "flap",
-            "x": 1347,
-            "y": 463,
-            "angle": 270,
-            "angleSign": 0,
-            "limit": [
-                {
-                    "x": 1347,
-                    "y": 433
-                },
-                {
-                    "x": 1347,
-                    "y": 493
-                }
-            ],
-            "hinge": "normal",
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
+        scale: {
+          x: 1,
+          y: 1,
+        },
+        size: '90',
+        thick: 20,
+        width: '1.50',
+        fill: '#eee',
+        bbox: {
+          x: 765,
+          y: 184,
+          width: 90,
+          height: 65,
+          top: 184,
+          right: 855,
+          bottom: 249,
+          left: 765,
+        },
+        realBbox: [
+          {
+            x: 855,
+            y: 204,
+          },
+          {
+            x: 765,
+            y: 204,
+          },
+          {
+            x: 765,
+            y: 184,
+          },
+          {
+            x: 855,
+            y: 184,
+          },
+        ],
+        params: {
+          bindBox: false,
+          move: false,
+          resize: true,
+          resizeLimit: {
+            width: {
+              min: 40,
+              max: 160,
             },
-            "scale": {
-                "x": 1,
-                "y": 1
+            height: {
+              min: false,
+              max: false,
             },
-            "size": 60,
-            "thick": 20,
-            "width": "1.00",
-            "fill": "#eee",
-            "bbox": {
-                "x": 1307,
-                "y": 433,
-                "width": 50,
-                "height": 60,
-                "top": 433,
-                "right": 1357,
-                "bottom": 493,
-                "left": 1307
+            columnHeight: {
+              min: false,
+              max: false,
             },
-            "realBbox": [
-                {
-                    "x": 1337,
-                    "y": 493
-                },
-                {
-                    "x": 1337,
-                    "y": 433
-                },
-                {
-                    "x": 1357,
-                    "y": 433
-                },
-                {
-                    "x": 1357,
-                    "y": 493
-                }
-            ],
-            "params": {
-                "bindBox": false,
-                "move": false,
-                "resize": true,
-                "resizeLimit": {
-                    "width": {
-                        "min": 20,
-                        "max": 100
-                    },
-                    "height": {
-                        "min": false,
-                        "max": false
-                    },
-                    "columnHeight": {
-                        "min": false,
-                        "max": false
-                    }
-                },
-                "rotate": false,
-                "columnHeight": false,
-                "beamHeight": false,
-                "waistSlabThickness": false,
-                "stepsBase": false,
-                "stepsHeight": false,
-                "slabFloorOffsetHeight": false,
-                "typeColumn": false,
-                "typeBeam": false,
-                "typeSlabFloor": false,
-                "demolish": false
+          },
+          rotate: false,
+          columnHeight: false,
+          beamHeight: false,
+          waistSlabThickness: false,
+          stepsBase: false,
+          stepsHeight: false,
+          slabFloorOffsetHeight: false,
+          typeColumn: false,
+          typeBeam: false,
+          typeSlabFloor: false,
+          demolish: false,
+        },
+        height: '120',
+        up: [
+          {
+            x: 765,
+            y: 204,
+            distance: 10,
+          },
+          {
+            x: 855,
+            y: 204,
+            distance: 10,
+          },
+        ],
+        down: [
+          {
+            x: 765,
+            y: 184,
+            distance: 10,
+          },
+          {
+            x: 855,
+            y: 184,
+            distance: 10,
+          },
+        ],
+        sillHeight: '50',
+        area: '3.00',
+      },
+      {
+        family: 'inWall',
+        class: 'doorWindow',
+        type: 'twin',
+        x: 540,
+        y: 367,
+        angle: 90,
+        angleSign: 0,
+        limit: [
+          {
+            x: 540,
+            y: 337,
+          },
+          {
+            x: 540,
+            y: 397,
+          },
+        ],
+        hinge: 'normal',
+        graph: {
+          '0': {},
+          context: {},
+          length: 1,
+        },
+        scale: {
+          x: 1,
+          y: 1,
+        },
+        size: 60,
+        thick: 20,
+        width: '1.00',
+        fill: '#eee',
+        bbox: {
+          x: 530,
+          y: 337,
+          width: 35,
+          height: 60,
+          top: 337,
+          right: 565,
+          bottom: 397,
+          left: 530,
+        },
+        realBbox: [
+          {
+            x: 550,
+            y: 337,
+          },
+          {
+            x: 550,
+            y: 397,
+          },
+          {
+            x: 530,
+            y: 397,
+          },
+          {
+            x: 530,
+            y: 337,
+          },
+        ],
+        params: {
+          bindBox: false,
+          move: false,
+          resize: true,
+          resizeLimit: {
+            width: {
+              min: 40,
+              max: 200,
             },
-            "height": "140",
-            "up": [
-                {
-                    "x": 1337,
-                    "y": 433,
-                    "distance": 10
-                },
-                {
-                    "x": 1337,
-                    "y": 493,
-                    "distance": 10
-                }
-            ],
-            "down": [
-                {
-                    "x": 1357,
-                    "y": 433,
-                    "distance": 10
-                },
-                {
-                    "x": 1357,
-                    "y": 493,
-                    "distance": 10
-                }
-            ],
-            "sillHeight": "40",
-            "area": "2.33"
-        }
+            height: {
+              min: false,
+              max: false,
+            },
+            columnHeight: {
+              min: false,
+              max: false,
+            },
+          },
+          rotate: false,
+          columnHeight: false,
+          beamHeight: false,
+          waistSlabThickness: false,
+          stepsBase: false,
+          stepsHeight: false,
+          slabFloorOffsetHeight: false,
+          typeColumn: false,
+          typeBeam: false,
+          typeSlabFloor: false,
+          demolish: false,
+        },
+        height: '80',
+        up: [
+          {
+            x: 550,
+            y: 337,
+            distance: 10,
+          },
+          {
+            x: 550,
+            y: 397,
+            distance: 10,
+          },
+        ],
+        down: [
+          {
+            x: 530,
+            y: 337,
+            distance: 10,
+          },
+          {
+            x: 530,
+            y: 397,
+            distance: 10,
+          },
+        ],
+        sillHeight: '90',
+        area: '1.33',
+      },
+      {
+        family: 'inWall',
+        class: 'doorWindow',
+        type: 'bay',
+        x: 1080,
+        y: 567,
+        angle: 450,
+        angleSign: 1,
+        limit: [
+          {
+            x: 1080,
+            y: 507,
+          },
+          {
+            x: 1080,
+            y: 627,
+          },
+        ],
+        hinge: 'normal',
+        graph: {
+          '0': {},
+          context: {},
+          length: 1,
+        },
+        scale: {
+          x: 1,
+          y: 1,
+        },
+        size: '120',
+        thick: 20,
+        width: '2.00',
+        fill: '#eee',
+        bbox: {
+          x: 1070,
+          y: 507,
+          width: 20,
+          height: 120,
+          top: 507,
+          right: 1090,
+          bottom: 627,
+          left: 1070,
+        },
+        realBbox: [
+          {
+            x: 1090,
+            y: 507,
+          },
+          {
+            x: 1090,
+            y: 627,
+          },
+          {
+            x: 1070,
+            y: 627,
+          },
+          {
+            x: 1070,
+            y: 507,
+          },
+        ],
+        params: {
+          bindBox: false,
+          move: false,
+          resize: true,
+          resizeLimit: {
+            width: {
+              min: 60,
+              max: 300,
+            },
+            height: {
+              min: false,
+              max: false,
+            },
+            columnHeight: {
+              min: false,
+              max: false,
+            },
+          },
+          rotate: false,
+          columnHeight: false,
+          beamHeight: false,
+          waistSlabThickness: false,
+          stepsBase: false,
+          stepsHeight: false,
+          slabFloorOffsetHeight: false,
+          typeColumn: false,
+          typeBeam: false,
+          typeSlabFloor: false,
+          demolish: false,
+        },
+        height: '120',
+        up: [
+          {
+            x: 1070,
+            y: 507,
+            distance: 10,
+          },
+          {
+            x: 1070,
+            y: 627,
+            distance: 10,
+          },
+        ],
+        down: [
+          {
+            x: 1090,
+            y: 507,
+            distance: 10,
+          },
+          {
+            x: 1090,
+            y: 627,
+            distance: 10,
+          },
+        ],
+        sillHeight: '50',
+        area: '4.00',
+      },
     ],
-    "wallData": [
-        {
-            "thick": 20,
-            "start": {
-                "x": 447,
-                "y": 458
-            },
-            "end": {
-                "x": 447,
-                "y": 744
-            },
-            "type": "normal",
-            "parent": 5,
-            "child": 1,
-            "angle": 1.5707963267948966,
-            "equations": {
-                "up": {
-                    "A": "v",
-                    "B": 457
-                },
-                "down": {
-                    "A": "v",
-                    "B": 437
-                },
-                "base": {
-                    "A": "v",
-                    "B": 447
-                }
-            },
-            "coords": [
-                {
-                    "x": 457,
-                    "y": 468
-                },
-                {
-                    "x": 437,
-                    "y": 448
-                },
-                {
-                    "x": 437,
-                    "y": 754
-                },
-                {
-                    "x": 457,
-                    "y": 734
-                }
-            ],
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
-            },
-            "surface_area": "NaN",
-            "transverse_area": "NaN"
+    wallData: [
+      {
+        thick: 20,
+        start: {
+          x: 540,
+          y: 194,
         },
-        {
-            "thick": 20,
-            "start": {
-                "x": 447,
-                "y": 744
-            },
-            "end": {
-                "x": 1347,
-                "y": 744
-            },
-            "type": "normal",
-            "parent": 0,
-            "child": 2,
-            "angle": 0,
-            "equations": {
-                "up": {
-                    "A": "h",
-                    "B": 734
-                },
-                "down": {
-                    "A": "h",
-                    "B": 754
-                },
-                "base": {
-                    "A": "h",
-                    "B": 744
-                }
-            },
-            "coords": [
-                {
-                    "x": 457,
-                    "y": 734
-                },
-                {
-                    "x": 437,
-                    "y": 754
-                },
-                {
-                    "x": 1357,
-                    "y": 754
-                },
-                {
-                    "x": 1337,
-                    "y": 734
-                }
-            ],
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
-            },
-            "surface_area": "NaN",
-            "transverse_area": "NaN"
+        end: {
+          x: 540,
+          y: 734,
         },
-        {
-            "thick": 20,
-            "start": {
-                "x": 1347,
-                "y": 744
-            },
-            "end": {
-                "x": 1347,
-                "y": 144
-            },
-            "type": "normal",
-            "parent": 1,
-            "child": 3,
-            "angle": -1.5707963267948966,
-            "equations": {
-                "up": {
-                    "A": "v",
-                    "B": 1337
-                },
-                "down": {
-                    "A": "v",
-                    "B": 1357
-                },
-                "base": {
-                    "A": "v",
-                    "B": 1347
-                }
-            },
-            "coords": [
-                {
-                    "x": 1337,
-                    "y": 734
-                },
-                {
-                    "x": 1357,
-                    "y": 754
-                },
-                {
-                    "x": 1357,
-                    "y": 134
-                },
-                {
-                    "x": 1337,
-                    "y": 154
-                }
-            ],
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
-            },
-            "surface_area": "NaN",
-            "transverse_area": "NaN"
+        type: 'normal',
+        parent: 3,
+        child: 1,
+        angle: 1.5707963267948966,
+        equations: {
+          up: {
+            A: 'v',
+            B: 550,
+          },
+          down: {
+            A: 'v',
+            B: 530,
+          },
+          base: {
+            A: 'v',
+            B: 540,
+          },
         },
-        {
-            "thick": 20,
-            "start": {
-                "x": 1347,
-                "y": 144
-            },
-            "end": {
-                "x": 1020,
-                "y": 144
-            },
-            "type": "normal",
-            "parent": 2,
-            "child": 4,
-            "angle": 3.141592653589793,
-            "equations": {
-                "up": {
-                    "A": "h",
-                    "B": 154
-                },
-                "down": {
-                    "A": "h",
-                    "B": 134
-                },
-                "base": {
-                    "A": "h",
-                    "B": 144
-                }
-            },
-            "coords": [
-                {
-                    "x": 1337,
-                    "y": 154
-                },
-                {
-                    "x": 1357,
-                    "y": 134
-                },
-                {
-                    "x": 1010,
-                    "y": 134
-                },
-                {
-                    "x": 1030,
-                    "y": 154
-                }
-            ],
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
-            },
-            "surface_area": "NaN",
-            "transverse_area": "NaN"
+        coords: [
+          {
+            x: 550,
+            y: 204,
+          },
+          {
+            x: 530,
+            y: 184,
+          },
+          {
+            x: 530,
+            y: 744,
+          },
+          {
+            x: 550,
+            y: 724,
+          },
+        ],
+        graph: {
+          '0': {},
+          context: {},
+          length: 1,
         },
-        {
-            "thick": 20,
-            "start": {
-                "x": 1020,
-                "y": 144
-            },
-            "end": {
-                "x": 1020,
-                "y": 458
-            },
-            "type": "normal",
-            "parent": 3,
-            "child": 5,
-            "angle": 1.5707963267948966,
-            "equations": {
-                "up": {
-                    "A": "v",
-                    "B": 1030
-                },
-                "down": {
-                    "A": "v",
-                    "B": 1010
-                },
-                "base": {
-                    "A": "v",
-                    "B": 1020
-                }
-            },
-            "coords": [
-                {
-                    "x": 1030,
-                    "y": 154
-                },
-                {
-                    "x": 1010,
-                    "y": 134
-                },
-                {
-                    "x": 1010,
-                    "y": 448
-                },
-                {
-                    "x": 1030,
-                    "y": 468
-                }
-            ],
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
-            },
-            "surface_area": "NaN",
-            "transverse_area": "NaN"
+        surface_area: 'NaN',
+        transverse_area: 'NaN',
+      },
+      {
+        thick: 20,
+        start: {
+          x: 540,
+          y: 734,
         },
-        {
-            "thick": 20,
-            "start": {
-                "x": 1020,
-                "y": 458
-            },
-            "end": {
-                "x": 447,
-                "y": 458
-            },
-            "type": "normal",
-            "parent": 4,
-            "child": 0,
-            "angle": 3.141592653589793,
-            "equations": {
-                "up": {
-                    "A": "h",
-                    "B": 468
-                },
-                "down": {
-                    "A": "h",
-                    "B": 448
-                },
-                "base": {
-                    "A": "h",
-                    "B": 458
-                }
-            },
-            "coords": [
-                {
-                    "x": 1030,
-                    "y": 468
-                },
-                {
-                    "x": 1010,
-                    "y": 448
-                },
-                {
-                    "x": 437,
-                    "y": 448
-                },
-                {
-                    "x": 457,
-                    "y": 468
-                }
-            ],
-            "graph": {
-                "0": {},
-                "context": {},
-                "length": 1
-            },
-            "surface_area": "NaN",
-            "transverse_area": "NaN"
-        }
+        end: {
+          x: 1080,
+          y: 734,
+        },
+        type: 'normal',
+        parent: 0,
+        child: 2,
+        angle: 0,
+        equations: {
+          up: {
+            A: 'h',
+            B: 724,
+          },
+          down: {
+            A: 'h',
+            B: 744,
+          },
+          base: {
+            A: 'h',
+            B: 734,
+          },
+        },
+        coords: [
+          {
+            x: 550,
+            y: 724,
+          },
+          {
+            x: 530,
+            y: 744,
+          },
+          {
+            x: 1090,
+            y: 744,
+          },
+          {
+            x: 1070,
+            y: 724,
+          },
+        ],
+        graph: {
+          '0': {},
+          context: {},
+          length: 1,
+        },
+        surface_area: 'NaN',
+        transverse_area: 'NaN',
+      },
+      {
+        thick: 20,
+        start: {
+          x: 1080,
+          y: 734,
+        },
+        end: {
+          x: 1080,
+          y: 194,
+        },
+        type: 'normal',
+        parent: 1,
+        child: 3,
+        angle: -1.5707963267948966,
+        equations: {
+          up: {
+            A: 'v',
+            B: 1070,
+          },
+          down: {
+            A: 'v',
+            B: 1090,
+          },
+          base: {
+            A: 'v',
+            B: 1080,
+          },
+        },
+        coords: [
+          {
+            x: 1070,
+            y: 724,
+          },
+          {
+            x: 1090,
+            y: 744,
+          },
+          {
+            x: 1090,
+            y: 184,
+          },
+          {
+            x: 1070,
+            y: 204,
+          },
+        ],
+        graph: {
+          '0': {},
+          context: {},
+          length: 1,
+        },
+        surface_area: 'NaN',
+        transverse_area: 'NaN',
+      },
+      {
+        thick: 20,
+        start: {
+          x: 1080,
+          y: 194,
+        },
+        end: {
+          x: 540,
+          y: 194,
+        },
+        type: 'normal',
+        parent: 2,
+        child: 0,
+        angle: 3.141592653589793,
+        equations: {
+          up: {
+            A: 'h',
+            B: 204,
+          },
+          down: {
+            A: 'h',
+            B: 184,
+          },
+          base: {
+            A: 'h',
+            B: 194,
+          },
+        },
+        coords: [
+          {
+            x: 1070,
+            y: 204,
+          },
+          {
+            x: 1090,
+            y: 184,
+          },
+          {
+            x: 530,
+            y: 184,
+          },
+          {
+            x: 550,
+            y: 204,
+          },
+        ],
+        graph: {
+          '0': {},
+          context: {},
+          length: 1,
+        },
+        surface_area: 'NaN',
+        transverse_area: 'NaN',
+      },
     ],
-    "roomData": [
-        {
-            "coords": [
-                {
-                    "x": 447,
-                    "y": 744
-                },
-                {
-                    "x": 1347,
-                    "y": 744
-                },
-                {
-                    "x": 1347,
-                    "y": 144
-                },
-                {
-                    "x": 1020,
-                    "y": 144
-                },
-                {
-                    "x": 1020,
-                    "y": 458
-                },
-                {
-                    "x": 447,
-                    "y": 458
-                },
-                {
-                    "x": 447,
-                    "y": 744
-                }
-            ],
-            "coordsOutside": [
-                {
-                    "x": 1357,
-                    "y": 754
-                },
-                {
-                    "x": 1357,
-                    "y": 134
-                },
-                {
-                    "x": 1010,
-                    "y": 134
-                },
-                {
-                    "x": 1010,
-                    "y": 448
-                },
-                {
-                    "x": 437,
-                    "y": 448
-                },
-                {
-                    "x": 437,
-                    "y": 754
-                },
-                {
-                    "x": 1357,
-                    "y": 754
-                }
-            ],
-            "coordsInside": [
-                {
-                    "x": 1337,
-                    "y": 734
-                },
-                {
-                    "x": 1337,
-                    "y": 154
-                },
-                {
-                    "x": 1030,
-                    "y": 154
-                },
-                {
-                    "x": 1030,
-                    "y": 468
-                },
-                {
-                    "x": 457,
-                    "y": 468
-                },
-                {
-                    "x": 457,
-                    "y": 734
-                },
-                {
-                    "x": 1337,
-                    "y": 734
-                }
-            ],
-            "inside": [],
-            "way": [
-                "0",
-                "2",
-                "3",
-                "4",
-                "5",
-                "1",
-                "0"
-            ],
-            "area": 330478,
-            "surface": "",
-            "name": "",
-            "color": "gradientWhite",
-            "showSurface": true,
-            "action": "add"
-        }
-    ]
-};
+    roomData: [
+      {
+        coords: [
+          {
+            x: 540,
+            y: 734,
+          },
+          {
+            x: 1080,
+            y: 734,
+          },
+          {
+            x: 1080,
+            y: 194,
+          },
+          {
+            x: 540,
+            y: 194,
+          },
+          {
+            x: 540,
+            y: 734,
+          },
+        ],
+        coordsOutside: [
+          {
+            x: 1090,
+            y: 744,
+          },
+          {
+            x: 1090,
+            y: 184,
+          },
+          {
+            x: 530,
+            y: 184,
+          },
+          {
+            x: 530,
+            y: 744,
+          },
+          {
+            x: 1090,
+            y: 744,
+          },
+        ],
+        coordsInside: [
+          {
+            x: 1070,
+            y: 724,
+          },
+          {
+            x: 1070,
+            y: 204,
+          },
+          {
+            x: 550,
+            y: 204,
+          },
+          {
+            x: 550,
+            y: 724,
+          },
+          {
+            x: 1070,
+            y: 724,
+          },
+        ],
+        inside: [],
+        way: ['0', '2', '3', '1', '0'],
+        area: 270400,
+        surface: '',
+        name: '',
+        color: 'gradientWhite',
+        showSurface: true,
+        action: 'add',
+      },
+    ],
+  };
 
   public measure(
     po: { x: number; y: number },
