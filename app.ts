@@ -114,19 +114,25 @@ export default class App {
     // ]);
 
     const mainPlanes = [
-      ['C0', 'C1', 'A0'],
-      ['C1', 'C2', 'A0'],
-      ['C2', 'C3', 'A0'],
+      ['C0', 'C1', 'A1', 'A0'],
+      ['C1', 'C2', 'A1'],
+      ['C2', 'C3', 'A0', 'A1'],
       ['C3', 'C0', 'A0'],
     ];
+    // const apex = [5, 8, 5, 8]; // pyramid
+    //const apex = [1.94, 8, 7.3, 8]; // terrced
+    // const apex = [5, 8, 7.3, 8]; // semi left
+    const apex = [1.94, 8, 5, 8]; // semi right
+
     let mainCorners = [];
     for (const wb of bridge.data.wallData) {
       mainCorners.push(
         new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
       );
     }
+    console.log(mainCorners);
     const mainRoofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
-    const mainRoofData = this.createRoofData([0, -2, 0, 2], mainPlanes);
+    const mainRoofData = this.createRoofData(apex, mainPlanes);
     const mainRoof = roofPlan.buildRoof(
       mainRoofprint,
       mainRoofData,
