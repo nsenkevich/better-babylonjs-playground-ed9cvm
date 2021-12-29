@@ -44,11 +44,11 @@ export default class App {
   public createScene(engine: BABYLON.Engine): BABYLON.Scene {
     const scene = new BABYLON.Scene(engine);
     //scene.createDefaultEnvironment({});
-    const ground = BABYLON.MeshBuilder.CreateGround(
-      'ground',
-      { width: 10, height: 20 },
-      scene
-    );
+    // const ground = BABYLON.MeshBuilder.CreateGround(
+    //   'ground',
+    //   { width: 10, height: 20 },
+    //   scene
+    // );
 
     const arcRotate: boolean = true;
     SceneHelper.setupCamera(scene, arcRotate);
@@ -88,11 +88,19 @@ export default class App {
     //   extPlanes
     // );
 
+    let mainCorners = [];
+    for (const wb of bridge.data.wallData) {
+      mainCorners.push(
+        new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
+      );
+    }
+    console.log(mainCorners);
+
     const roofPlan = new RoofPlan();
-    // const roofprint = roofPlan.roofprint(corners, ply + 0.2, height);
-    // const floorprint = roofPlan.roofprint(corners, ply, 0);
-    // const floor = roofPlan.buildCeiling(floorprint, scene);
-    // roofPlan.buildCeiling(roofprint, scene);
+    const roofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
+    const floorprint = roofPlan.roofprint(mainCorners, ply + 2, 0);
+    const floor = roofPlan.buildCeiling(floorprint, scene);
+    roofPlan.buildCeiling(roofprint, scene);
 
     // const extRoofprint = roofPlan.roofprint(
     //   extensionCorners,
@@ -123,14 +131,6 @@ export default class App {
     //const apex = [1.94, 8, 7.3, 8]; // terrced
     // const apex = [5, 8, 7.3, 8]; // semi left
     const apex = [1.94, 8, 5, 8]; // semi right
-
-    let mainCorners = [];
-    for (const wb of bridge.data.wallData) {
-      mainCorners.push(
-        new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
-      );
-    }
-    console.log(mainCorners);
     const mainRoofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
     const mainRoofData = this.createRoofData(apex, mainPlanes);
     const mainRoof = roofPlan.buildRoof(
@@ -150,8 +150,11 @@ export default class App {
     //   scene
     // );
 
-    // roof.material = new BABYLON.StandardMaterial("tiles", scene);
-    // roof.material.diffuseTexture = new BABYLON.Texture("https://i.imgur.com/9SH16GZ.jpg", scene);
+    mainRoof.material = new BABYLON.StandardMaterial('tiles', scene);
+    mainRoof.material.diffuseTexture = new BABYLON.Texture(
+      'https://i.imgur.com/9SH16GZ.jpg',
+      scene
+    );
 
     return scene;
   }
