@@ -43,16 +43,29 @@ export default class App {
    */
   public createScene(engine: BABYLON.Engine): BABYLON.Scene {
     const scene = new BABYLON.Scene(engine);
-    //scene.createDefaultEnvironment({});
-    // const ground = BABYLON.MeshBuilder.CreateGround(
-    //   'ground',
-    //   { width: 10, height: 20 },
-    //   scene
-    // );
+    const camera = new BABYLON.ArcRotateCamera(
+      'camera',
+      -Math.PI / 2,
+      Math.PI / 2.5,
+      10,
+      new BABYLON.Vector3(0, 0, 0),
+      scene
+    );
+    camera.setTarget(BABYLON.Vector3.Zero());
+    camera.attachControl(scene.getEngine().getRenderingCanvas(), true);
 
-    const arcRotate: boolean = true;
-    SceneHelper.setupCamera(scene, arcRotate);
-    SceneHelper.setupLight(scene);
+    const light = new BABYLON.HemisphericLight(
+      'light1',
+      new BABYLON.Vector3(0, 1, 0),
+      scene
+    );
+    light.intensity = 0.7;
+
+    const ground = BABYLON.MeshBuilder.CreateGround(
+      'ground',
+      { width: 7.5, height: 15 },
+      scene
+    );
 
     const demo = [-3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 3, 1, 3, 3, -3, 3];
     const bridge = new Bridge();
@@ -76,7 +89,12 @@ export default class App {
       'http://i.imgur.com/88fOIk3.jpg',
       scene
     );
+    const center = masonry.getBoundingInfo().boundingBox.center;
+    const min = masonry.getBoundingInfo().minimum;
+    const max = masonry.getBoundingInfo().maximum;
+    masonry.position = new BABYLON.Vector3(-center.x, 0, -center.z);
 
+    // console.log(masonry.getBoundingInfo().boundingBox);
     // const extensionCorners = this.createCorners([0, -2, 5, -2, 5, 1, 0, 1]);
     // const extPlanes = [
     //   ['C0', 'C1', 'A1', 'A0'],
@@ -94,13 +112,15 @@ export default class App {
         new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
       );
     }
-    console.log(mainCorners);
+    console.log(mainCorners, min);
 
+    // const floorprint = roofPlan.roofprint(mainCorners, ply + 2, 0);
+    // const floor = roofPlan.buildCeiling(floorprint, scene);
     const roofPlan = new RoofPlan();
     const roofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
-    const floorprint = roofPlan.roofprint(mainCorners, ply + 2, 0);
-    const floor = roofPlan.buildCeiling(floorprint, scene);
-    roofPlan.buildCeiling(roofprint, scene);
+    const roof = roofPlan.buildCeiling(roofprint, scene);
+    roof.position.x = -center.x;
+    roof.position.z = -center.z;
 
     // const extRoofprint = roofPlan.roofprint(
     //   extensionCorners,
@@ -127,10 +147,21 @@ export default class App {
       ['C2', 'C3', 'A0', 'A1'],
       ['C3', 'C0', 'A0'],
     ];
-    // const apex = [5, 8, 5, 8]; // pyramid
-    //const apex = [1.94, 8, 7.3, 8]; // terrced
-    // const apex = [5, 8, 7.3, 8]; // semi left
-    const apex = [1.94, 8, 5, 8]; // semi right
+    // const lenghtX = (max.x - min.x) / 3;
+    // const apex = [min.x + lenghtX, center.z, max.x - lenghtX, center.z]; // hip1
+
+    const lenghtZ = (max.x - min.x) / 3;
+    const apex = [center.x, max.z - lenghtZ, center.x, min.z + lenghtZ]; // hip2
+
+    // const apex = [center.x, center.z, center.x, center.z]; // pyramid
+    // const apex = [min.x, center.z, max.x, center.z]; // terrced
+    // const apex = [center.x, max.z, center.x, min.z]; // terrced2
+
+    // const apex = [center.x, center.z, center.x, min.z]; // semi up
+    // const apex = [center.x, max.z, center.x, center.z]; // semi down
+    // const apex = [center.x, center.z, max.x, center.z]; // semi left
+    // const apex = [min.x, center.z, center.x, center.z]; // semi right
+
     const mainRoofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
     const mainRoofData = this.createRoofData(apex, mainPlanes);
     const mainRoof = roofPlan.buildRoof(
@@ -155,6 +186,7 @@ export default class App {
       'https://i.imgur.com/9SH16GZ.jpg',
       scene
     );
+    mainRoof.position = new BABYLON.Vector3(-center.x, 0, -center.z);
 
     return scene;
   }
@@ -169,17 +201,6 @@ export default class App {
 
   public addWallsAndOpenings(height: number): Wall[] {
     const bridge = new Bridge();
-
-    var door = { width: 1, height: 1.8 };
-    var doorSpace = { opening: door, left: 1, top: 0 };
-
-    var window0 = { width: 1.2, height: 2.4 };
-    var window1 = { width: 2, height: 2.4 };
-
-    var windowSpace02 = { opening: window0, left: 0.814, top: 0.4 };
-    var windowSpace1 = { opening: window0, left: 0.4, top: 0.4 };
-    var windowSpace78 = { opening: window1, left: 1.5, top: 0.4 };
-
     let walls = [] as Wall[];
     for (const wb of bridge.data.wallData) {
       const wall = {
@@ -190,7 +211,7 @@ export default class App {
       for (const obj of bridge.data.objData) {
         if (bridge.objectOnWall(obj, [wb])) {
           const objectFromBottom = (+obj.height + +obj.sillHeight) / 100;
-          console.log(objectFromBottom);
+          // console.log(objectFromBottom);
           const openSpace = {
             opening: { width: +obj.size / 100, height: +obj.height / 100 },
             left: bridge.measure(wb.start, { x: obj.x, y: obj.y }) / 100,
@@ -202,14 +223,6 @@ export default class App {
 
       walls.push(wall);
     }
-
-    // walls[0].windowSpaces = [windowSpace02];
-    // walls[1].windowSpaces = [windowSpace1];
-    // walls[2].windowSpaces = [windowSpace02];
-    // walls[7].windowSpaces = [windowSpace78];
-    // walls[8].windowSpaces = [windowSpace78];
-
-    // walls[5].doorSpaces = [doorSpace];
 
     return walls;
   }
