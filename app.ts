@@ -112,9 +112,11 @@ export default class App {
 
     const extHeight = 2.5;
     const extMasonry = new FloorPlan().build(extData, ply, 2.7, opt, scene);
-
-    // extMasonry.position = new BABYLON.Vector3(-extCenter.x, 0, -extCenter.z);
-    // console.log(masonry.getBoundingInfo().boundingBox);
+    extMasonry.material = new BABYLON.StandardMaterial('', scene);
+    extMasonry.material.diffuseTexture = new BABYLON.Texture(
+      'http://i.imgur.com/88fOIk3.jpg',
+      scene
+    );
 
     let mainCorners = [];
     for (const wb of bridge.data.wallData.filter((w) => w.extension === null)) {
@@ -206,6 +208,11 @@ export default class App {
       scene
     );
 
+    extRoof.material = new BABYLON.StandardMaterial('tiles2', scene);
+    extRoof.material.diffuseTexture = new BABYLON.Texture(
+      'https://i.imgur.com/9SH16GZ.jpg',
+      scene
+    );
     return scene;
   }
 
