@@ -61,11 +61,11 @@ export default class App {
     );
     light.intensity = 0.7;
 
-    const ground = BABYLON.MeshBuilder.CreateGround(
-      'ground',
-      { width: 7.5, height: 15 },
-      scene
-    );
+    // const ground = BABYLON.MeshBuilder.CreateGround(
+    //   'ground',
+    //   { width: 7.5, height: 15 },
+    //   scene
+    // );
 
     const demo = [-3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 3, 1, 3, 3, -3, 3];
     const bridge = new Bridge();
@@ -115,16 +115,6 @@ export default class App {
 
     // extMasonry.position = new BABYLON.Vector3(-extCenter.x, 0, -extCenter.z);
     // console.log(masonry.getBoundingInfo().boundingBox);
-    // const extensionCorners = this.createCorners([0, -2, 5, -2, 5, 1, 0, 1]);
-    // const extPlanes = [
-    //   ['C0', 'C1', 'A1', 'A0'],
-    //   ['C1', 'C2', 'A1'],
-    //   ['C2', 'C3', 'A0', 'A1'],
-    // ];
-    // const extensionRoofData = this.createRoofData(
-    //   [0, -0.5, 4.5, -0.5],
-    //   extPlanes
-    // );
 
     let mainCorners = [];
     for (const wb of bridge.data.wallData.filter((w) => w.extension === null)) {
@@ -188,14 +178,17 @@ export default class App {
       );
     }
 
-    const extRoofprint = roofPlan.roofprint(extensionCorners, ply + 0.2, 2.7);
+    const extRoofprint = roofPlan.roofprint(extensionCorners, ply + 0.1, 2.7);
     roofPlan.buildCeiling(extRoofprint, scene);
 
     const extCenter = extMasonry.getBoundingInfo().boundingBox.center;
     const extMin = extMasonry.getBoundingInfo().minimum;
     const extMax = extMasonry.getBoundingInfo().maximum;
 
-    const extApex = [extCenter.x, extMax.z, extCenter.x, extMin.z];
+    //const extApex = [extMin.x, extCenter.z, extMax.x, extCenter.z];
+    //const extApex = [extMin.x, extCenter.z, extMin.x, extCenter.z];
+    const extApex = [extMin.x, extMax.z, extMin.x, extMin.z];
+
     const extPlanes = [
       ['C0', 'C1', 'A1', 'A0'],
       ['C1', 'C2', 'A1'],
@@ -207,26 +200,11 @@ export default class App {
     const extRoof = roofPlan.buildRoof(
       extRoofprint,
       extensionRoofData,
-      2,
+      0.5,
       height,
       5.6,
       scene
     );
-
-    // const mainPlanes = [
-    //   ['C0', 'C1', 'A0'],
-    //   ['C1', 'C2', 'A0'],
-    //   ['C2', 'C3', 'A0'],
-    //   ['C3', 'C4', 'A1', 'A0'],
-    //   ['C4', 'C5', 'A1'],
-    //   ['C5', 'C0', 'A0', 'A1'],
-    // ];
-
-    // const mainCorners = this.createCorners([
-    //   -3, -2, -1, -4, 1, -4, 3, -2, 3, 3, -3, 3,
-    // ]);
-
-    // mainRoof.position = new BABYLON.Vector3(-center.x, 0, -center.z);
 
     return scene;
   }
