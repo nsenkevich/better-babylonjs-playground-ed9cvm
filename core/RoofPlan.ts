@@ -69,7 +69,8 @@ export class RoofPlan {
   //Creates the mesh roof structure
   buildRoof(
     roofprint: BABYLON.Vector3[],
-    roofData: RoofData,
+    apexes,
+    planes,
     rise: number,
     height: number,
     uvbase: number,
@@ -77,8 +78,6 @@ export class RoofPlan {
   ): BABYLON.Mesh {
     var positions = [];
     var uvs = [];
-    let apexes = roofData.apexes;
-    let planes = roofData.planes;
     var offset = roofprint.length;
     var vidx = [];
     var currentv = [];

@@ -37,6 +37,181 @@ export interface RoofData {
 }
 
 export default class App {
+  public createMainHouse(scene, walls, objs, width, height, opt) {
+    // const ground = BABYLON.MeshBuilder.CreateGround(
+    //   'ground',
+    //   { width: 7.5, height: 15 },
+    //   scene
+    // );
+
+    const floorData = this.addWallsAndOpenings(height, walls, objs);
+    const masonry = new FloorPlan().build(floorData, width, height, opt, scene);
+
+    masonry.material = new BABYLON.StandardMaterial('', scene);
+    masonry.material.diffuseTexture = new BABYLON.Texture(
+      'http://i.imgur.com/88fOIk3.jpg',
+      scene
+    );
+
+    return masonry;
+  }
+
+  public createExtension(scene, walls, objects, thickness, height, opt) {
+    opt.interior = true;
+
+    const extData = this.addWallsAndOpenings(height, walls, objects);
+
+    const extMasonry = new FloorPlan().build(
+      extData,
+      thickness,
+      height,
+      opt,
+      scene
+    );
+    extMasonry.material = new BABYLON.StandardMaterial('', scene);
+    extMasonry.material.diffuseTexture = new BABYLON.Texture(
+      'http://i.imgur.com/88fOIk3.jpg',
+      scene
+    );
+
+    return extMasonry;
+  }
+
+  public createLeanOnRoof(
+    scene,
+    extMasonry,
+    walls,
+    thickness,
+    height,
+    roofType
+  ) {
+    // extension roof
+    let extensionCorners = [];
+    for (const wb of walls) {
+      extensionCorners.push(
+        new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
+      );
+    }
+
+    const roofPlan = new RoofPlan();
+    const extRoofprint = roofPlan.roofprint(
+      extensionCorners,
+      thickness + 0.1,
+      height
+    );
+    roofPlan.buildCeiling(extRoofprint, scene);
+
+    const extCenter = extMasonry.getBoundingInfo().boundingBox.center;
+    const extMin = extMasonry.getBoundingInfo().minimum;
+    const extMax = extMasonry.getBoundingInfo().maximum;
+
+    const planes = [
+      ['C0', 'C1', 'A1', 'A0'],
+      ['C1', 'C2', 'A1'],
+      ['C2', 'C3', 'A0', 'A1'],
+      ['C3', 'C0', 'A0'],
+    ];
+
+    let extApex = [extMin.x, extMax.z, extMin.x, extMin.z];
+    if (roofType === 'gable') {
+      extApex = [extMin.x, extCenter.z, extMax.x, extCenter.z];
+    }
+    if (roofType === 'hip') {
+      extApex = [extMin.x, extCenter.z, extMin.x, extCenter.z];
+    }
+
+    const extRoof = roofPlan.buildRoof(
+      extRoofprint,
+      this.createRoofData(extApex),
+      planes,
+      0.5,
+      height,
+      5.6,
+      scene
+    );
+
+    extRoof.material = new BABYLON.StandardMaterial('tiles2', scene);
+    extRoof.material.diffuseTexture = new BABYLON.Texture(
+      'https://i.imgur.com/9SH16GZ.jpg',
+      scene
+    );
+
+    return extRoof;
+  }
+
+  public createRoof(scene, masonry, walls, thickness, height, roofType) {
+    const center = masonry.getBoundingInfo().boundingBox.center;
+    const min = masonry.getBoundingInfo().minimum;
+    const max = masonry.getBoundingInfo().maximum;
+
+    let mainCorners = [];
+    for (const wb of walls) {
+      mainCorners.push(
+        new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
+      );
+    }
+
+    // const floorprint = roofPlan.roofprint(mainCorners, ply + 2, 0);
+    // const floor = roofPlan.buildCeiling(floorprint, scene);
+    const roofPlan = new RoofPlan();
+    const roofprint = roofPlan.roofprint(mainCorners, thickness + 0.2, height);
+    const roof = roofPlan.buildCeiling(roofprint, scene);
+    // roof.position.x = -center.x;
+    // roof.position.z = -center.z;
+
+    const planes = [
+      ['C0', 'C1', 'A1', 'A0'],
+      ['C1', 'C2', 'A1'],
+      ['C2', 'C3', 'A0', 'A1'],
+      ['C3', 'C0', 'A0'],
+    ];
+
+    let apex = [center.x, center.z, center.x, center.z]; // pyramid
+    const middle = (max.x - min.x) / 3;
+    if (roofType === 'hip1') {
+      apex = [min.x + middle, center.z, max.x - middle, center.z];
+    }
+    if (roofType === 'hip2') {
+      apex = [center.x, max.z - middle, center.x, min.z + middle];
+    }
+    if (roofType === 'terrced1') {
+      apex = [min.x, center.z, max.x, center.z];
+    }
+    if (roofType === 'terrced2') {
+      apex = [center.x, max.z, center.x, min.z];
+    }
+    if (roofType === 'semiUp') {
+      apex = [center.x, center.z, center.x, min.z];
+    }
+    if (roofType === 'semiDown') {
+      apex = [center.x, max.z, center.x, center.z];
+    }
+    if (roofType === 'semiLeft') {
+      apex = [center.x, center.z, max.x, center.z];
+    }
+    if (roofType === 'semiRight') {
+      apex = [min.x, center.z, center.x, center.z];
+    }
+
+    const roofPrint = roofPlan.roofprint(mainCorners, thickness + 0.2, height);
+    const mainRoof = roofPlan.buildRoof(
+      roofPrint,
+      this.createRoofData(apex),
+      planes,
+      3,
+      height,
+      5.6,
+      scene
+    );
+
+    mainRoof.material = new BABYLON.StandardMaterial('tiles', scene);
+    mainRoof.material.diffuseTexture = new BABYLON.Texture(
+      'https://i.imgur.com/9SH16GZ.jpg',
+      scene
+    );
+    return mainRoof;
+  }
+
   /**
    * The main entry point for the 3D app.
    * @param engine - an instance of the 3D engine.
@@ -61,21 +236,7 @@ export default class App {
     );
     light.intensity = 0.7;
 
-    // const ground = BABYLON.MeshBuilder.CreateGround(
-    //   'ground',
-    //   { width: 7.5, height: 15 },
-    //   scene
-    // );
-
-    const demo = [-3, -2, -1, -4, 1, -4, 3, -2, 5, -2, 5, 1, 3, 1, 3, 3, -3, 3];
     const bridge = new Bridge();
-    const demo2 = bridge.buildCorners();
-    const corners = this.createCorners(demo2);
-    const floorData = this.addWallsAndOpenings(
-      2.7,
-      bridge.data.wallData.filter((w) => w.extension === null),
-      bridge.data.objData
-    );
     let opt = {
       interiorUV: new BABYLON.Vector4(0.167, 0, 1, 1),
       exteriorUV: new BABYLON.Vector4(0, 0, 0.16, 1),
@@ -83,145 +244,39 @@ export default class App {
       exteriorColor: new BABYLON.Color4(1, 1, 1, 1),
       interior: false,
     };
-
-    const ply = 0.3;
-    const height = 3.9;
-    const masonry = new FloorPlan().build(floorData, ply, height, opt, scene);
-
-    masonry.material = new BABYLON.StandardMaterial('', scene);
-    masonry.material.diffuseTexture = new BABYLON.Texture(
-      'http://i.imgur.com/88fOIk3.jpg',
-      scene
+    let walls = bridge.data.wallData.filter((w) => w.extension === null);
+    const masonry = this.createMainHouse(
+      scene,
+      walls,
+      bridge.data.objData,
+      0.3,
+      3.9,
+      opt
     );
-
-    const center = masonry.getBoundingInfo().boundingBox.center;
-    const min = masonry.getBoundingInfo().minimum;
-    const max = masonry.getBoundingInfo().maximum;
-    // masonry.position = new BABYLON.Vector3(-center.x, 0, -center.z);
-
-    opt.interior = true;
-    const extWalls = bridge.data.wallData.filter(
+    this.createRoof(scene, masonry, walls, 0.3, 3.9, 'pyramid');
+    walls = bridge.data.wallData.filter(
       (w) => w.extension === 'frontExtension'
     );
-    extWalls.push({ start: extWalls[2].end, end: extWalls[0].start });
-    const extData = this.addWallsAndOpenings(
+    const extension = this.createExtension(
+      scene,
+      walls,
+      bridge.data.objData,
+      0.3,
       2.7,
-      extWalls,
-      bridge.data.objData
+      opt
+    );
+    this.createLeanOnRoof(
+      scene,
+      extension,
+      bridge.data.wallData,
+      0.3,
+      3.9,
+      'pyramid'
     );
 
-    const extHeight = 2.5;
-    const extMasonry = new FloorPlan().build(extData, ply, 2.7, opt, scene);
-    extMasonry.material = new BABYLON.StandardMaterial('', scene);
-    extMasonry.material.diffuseTexture = new BABYLON.Texture(
-      'http://i.imgur.com/88fOIk3.jpg',
-      scene
-    );
+    // masonry.position = new BABYLON.Vector3(-center.x, 0, -center.z);
 
-    let mainCorners = [];
-    for (const wb of bridge.data.wallData.filter((w) => w.extension === null)) {
-      mainCorners.push(
-        new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
-      );
-    }
-    console.log(mainCorners, min);
-
-    // const floorprint = roofPlan.roofprint(mainCorners, ply + 2, 0);
-    // const floor = roofPlan.buildCeiling(floorprint, scene);
-    const roofPlan = new RoofPlan();
-    const roofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
-    const roof = roofPlan.buildCeiling(roofprint, scene);
-    // roof.position.x = -center.x;
-    // roof.position.z = -center.z;
-
-    const mainPlanes = [
-      ['C0', 'C1', 'A1', 'A0'],
-      ['C1', 'C2', 'A1'],
-      ['C2', 'C3', 'A0', 'A1'],
-      ['C3', 'C0', 'A0'],
-    ];
-    // const lenghtX = (max.x - min.x) / 3;
-    // const apex = [min.x + lenghtX, center.z, max.x - lenghtX, center.z]; // hip1
-
-    const lenghtZ = (max.x - min.x) / 3;
-    const apex = [center.x, max.z - lenghtZ, center.x, min.z + lenghtZ]; // hip2
-
-    // const apex = [center.x, center.z, center.x, center.z]; // pyramid
-    // const apex = [min.x, center.z, max.x, center.z]; // terrced
-    // const apex = [center.x, max.z, center.x, min.z]; // terrced2
-
-    // const apex = [center.x, center.z, center.x, min.z]; // semi up
-    // const apex = [center.x, max.z, center.x, center.z]; // semi down
-    // const apex = [center.x, center.z, max.x, center.z]; // semi left
-    // const apex = [min.x, center.z, center.x, center.z]; // semi right
-
-    const mainRoofprint = roofPlan.roofprint(mainCorners, ply + 0.2, height);
-    const mainRoofData = this.createRoofData(apex, mainPlanes);
-    const mainRoof = roofPlan.buildRoof(
-      mainRoofprint,
-      mainRoofData,
-      3,
-      height,
-      5.6,
-      scene
-    );
-
-    mainRoof.material = new BABYLON.StandardMaterial('tiles', scene);
-    mainRoof.material.diffuseTexture = new BABYLON.Texture(
-      'https://i.imgur.com/9SH16GZ.jpg',
-      scene
-    );
-
-    // extension roof
-    let extensionCorners = [];
-    for (const wb of extWalls) {
-      extensionCorners.push(
-        new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100)
-      );
-    }
-
-    const extRoofprint = roofPlan.roofprint(extensionCorners, ply + 0.1, 2.7);
-    roofPlan.buildCeiling(extRoofprint, scene);
-
-    const extCenter = extMasonry.getBoundingInfo().boundingBox.center;
-    const extMin = extMasonry.getBoundingInfo().minimum;
-    const extMax = extMasonry.getBoundingInfo().maximum;
-
-    //const extApex = [extMin.x, extCenter.z, extMax.x, extCenter.z];
-    //const extApex = [extMin.x, extCenter.z, extMin.x, extCenter.z];
-    const extApex = [extMin.x, extMax.z, extMin.x, extMin.z];
-
-    const extPlanes = [
-      ['C0', 'C1', 'A1', 'A0'],
-      ['C1', 'C2', 'A1'],
-      ['C2', 'C3', 'A0', 'A1'],
-      ['C3', 'C0', 'A0'],
-    ];
-    const extensionRoofData = this.createRoofData(extApex, extPlanes);
-
-    const extRoof = roofPlan.buildRoof(
-      extRoofprint,
-      extensionRoofData,
-      0.5,
-      height,
-      5.6,
-      scene
-    );
-
-    extRoof.material = new BABYLON.StandardMaterial('tiles2', scene);
-    extRoof.material.diffuseTexture = new BABYLON.Texture(
-      'https://i.imgur.com/9SH16GZ.jpg',
-      scene
-    );
     return scene;
-  }
-
-  public createCorners(data: number[]): BABYLON.Vector3[] {
-    let corners = [];
-    for (let b = 0; b < data.length / 2; b++) {
-      corners.push(new BABYLON.Vector3(data[2 * b], 0, data[2 * b + 1]));
-    }
-    return corners;
   }
 
   public addWallsAndOpenings(
@@ -265,7 +320,7 @@ export default class App {
     return walls;
   }
 
-  public createRoofData(roofApexData: number[], planes: string[][]): RoofData {
+  public createRoofData(roofApexData: number[]) {
     let apexes = [];
     for (var i = 0; i < roofApexData.length / 2; i++) {
       apexes.push(
@@ -273,6 +328,6 @@ export default class App {
       );
     }
 
-    return { apexes, planes };
+    return apexes;
   }
 }
