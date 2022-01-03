@@ -37,7 +37,8 @@ export interface RoofData {
 }
 
 export default class App {
-  public createMainHouse(scene, walls, objs, width, height, opt) {
+
+  public createMainHouse(scene, walls, objs, thickness, height, opt): BABYLON.Mesh {
     // const ground = BABYLON.MeshBuilder.CreateGround(
     //   'ground',
     //   { width: 7.5, height: 15 },
@@ -45,7 +46,7 @@ export default class App {
     // );
 
     const floorData = this.addWallsAndOpenings(height, walls, objs);
-    const masonry = new FloorPlan().build(floorData, width, height, opt, scene);
+    const masonry = new FloorPlan().build(floorData, thickness, height, opt, scene);
 
     masonry.material = new BABYLON.StandardMaterial('', scene);
     masonry.material.diffuseTexture = new BABYLON.Texture(
@@ -56,7 +57,14 @@ export default class App {
     return masonry;
   }
 
-  public createExtension(scene, walls, objects, thickness, height, opt) {
+  public createExtension(
+    scene,
+    walls,
+    objects,
+    thickness,
+    height,
+    opt
+  ): BABYLON.Mesh {
     opt.interior = true;
 
     const extData = this.addWallsAndOpenings(height, walls, objects);
@@ -84,7 +92,7 @@ export default class App {
     thickness,
     height,
     roofType
-  ) {
+  ): BABYLON.Mesh {
     // extension roof
     let extensionCorners = [];
     for (const wb of walls) {
@@ -139,7 +147,14 @@ export default class App {
     return extRoof;
   }
 
-  public createRoof(scene, masonry, walls, thickness, height, roofType) {
+  public createRoof(
+    scene,
+    masonry,
+    walls,
+    thickness,
+    height,
+    roofType
+  ): BABYLON.Mesh {
     const center = masonry.getBoundingInfo().boundingBox.center;
     const min = masonry.getBoundingInfo().minimum;
     const max = masonry.getBoundingInfo().maximum;
@@ -254,25 +269,19 @@ export default class App {
       opt
     );
     this.createRoof(scene, masonry, walls, 0.3, 3.9, 'pyramid');
-    walls = bridge.data.wallData.filter(
+    const extWalls = bridge.data.wallData.filter(
       (w) => w.extension === 'frontExtension'
     );
+    extWalls.push({ start: extWalls[2].end, end: extWalls[0].start });
     const extension = this.createExtension(
       scene,
-      walls,
+      extWalls,
       bridge.data.objData,
       0.3,
       2.7,
       opt
     );
-    this.createLeanOnRoof(
-      scene,
-      extension,
-      bridge.data.wallData,
-      0.3,
-      3.9,
-      'pyramid'
-    );
+    this.createLeanOnRoof(scene, extension, extWalls, 0.3, 3.9, 'pyramid');
 
     // masonry.position = new BABYLON.Vector3(-center.x, 0, -center.z);
 
