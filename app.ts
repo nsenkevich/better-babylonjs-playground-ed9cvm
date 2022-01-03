@@ -37,8 +37,14 @@ export interface RoofData {
 }
 
 export default class App {
-
-  public createMainHouse(scene, walls, objs, thickness, height, opt): BABYLON.Mesh {
+  public createMainHouse(
+    scene,
+    walls,
+    objs,
+    thickness,
+    height,
+    opt
+  ): BABYLON.Mesh {
     // const ground = BABYLON.MeshBuilder.CreateGround(
     //   'ground',
     //   { width: 7.5, height: 15 },
@@ -46,7 +52,13 @@ export default class App {
     // );
 
     const floorData = this.addWallsAndOpenings(height, walls, objs);
-    const masonry = new FloorPlan().build(floorData, thickness, height, opt, scene);
+    const masonry = new FloorPlan().build(
+      floorData,
+      thickness,
+      height,
+      opt,
+      scene
+    );
 
     masonry.material = new BABYLON.StandardMaterial('', scene);
     masonry.material.diffuseTexture = new BABYLON.Texture(
@@ -260,7 +272,7 @@ export default class App {
       interior: false,
     };
     let walls = bridge.data.wallData.filter((w) => w.extension === null);
-    const masonry = this.createMainHouse(
+    const mainProperty = this.createMainHouse(
       scene,
       walls,
       bridge.data.objData,
@@ -268,7 +280,14 @@ export default class App {
       3.9,
       opt
     );
-    this.createRoof(scene, masonry, walls, 0.3, 3.9, 'pyramid');
+    const mainRoof = this.createRoof(
+      scene,
+      mainProperty,
+      walls,
+      0.3,
+      3.9,
+      'pyramid'
+    );
     const extWalls = bridge.data.wallData.filter(
       (w) => w.extension === 'frontExtension'
     );
@@ -281,9 +300,22 @@ export default class App {
       2.7,
       opt
     );
-    this.createLeanOnRoof(scene, extension, extWalls, 0.3, 3.9, 'pyramid');
-
-    // masonry.position = new BABYLON.Vector3(-center.x, 0, -center.z);
+    const extensionRoof = this.createLeanOnRoof(
+      scene,
+      extension,
+      extWalls,
+      0.3,
+      2.7,
+      'pyramid'
+    );
+    // const newMesh = BABYLON.Mesh.MergeMeshes([
+    //   mainProperty,
+    //   mainRoof,
+    //   extension,
+    //   extensionRoof,
+    // ]);
+    // const center = newMesh.getBoundingInfo().boundingBox.center;
+    // newMesh.position = new BABYLON.Vector3(-center.x, 0, -center.z);
 
     return scene;
   }
