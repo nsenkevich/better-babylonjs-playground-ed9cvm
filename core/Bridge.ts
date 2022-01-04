@@ -1,4 +1,42 @@
+import { FloorPlan } from './FloorPlan';
+import { RoofPlan } from './RoofPlan';
+
+export interface Opening {
+  width: number;
+  height: number;
+}
+
+export interface OpeningSpace {
+  opening: Opening;
+  left: number;
+  top: number;
+}
+
+export interface Wall {
+  corner: BABYLON.Vector3;
+  windowSpaces: OpeningSpace[];
+  doorSpaces: OpeningSpace[];
+}
+
+export interface Options {
+  interiorUV: BABYLON.Vector4;
+  exteriorUV: BABYLON.Vector4;
+  interiorColor: BABYLON.Color4;
+  exteriorColor: BABYLON.Color4;
+  interior: boolean;
+}
+export interface RoofData {
+  apexes: BABYLON.Vector2[];
+  planes: string[][];
+}
+
 export class Bridge {
+  constructor(
+    private floorPlan: FloorPlan,
+    private roofPlan: RoofPlan,
+    private scene
+  ) {}
+
   data = {
     objData: [
       {
@@ -1461,6 +1499,176 @@ export class Bridge {
     ],
   };
 
+  public createMainHouse(walls, objs, thickness, height, opt): BABYLON.Mesh {
+    // const ground = BABYLON.MeshBuilder.CreateGround(
+    //   'ground',
+    //   { width: 7.5, height: 15 },
+    //   scene
+    // );
+
+    const floorData = this.addWallsAndOpenings(height, walls, objs);
+    const masonry = this.floorPlan.build(
+      floorData,
+      thickness,
+      height,
+      opt,
+      this.scene
+    );
+
+    masonry.material = new BABYLON.StandardMaterial('', this.scene);
+    masonry.material.diffuseTexture = new BABYLON.Texture(
+      'http://i.imgur.com/88fOIk3.jpg',
+      this.scene
+    );
+
+    return masonry;
+  }
+
+  public createExtension(walls, objects, thickness, height, opt): BABYLON.Mesh {
+    opt.interior = true;
+
+    const extData = this.addWallsAndOpenings(height, walls, objects);
+
+    const extMasonry = this.floorPlan.build(
+      extData,
+      thickness,
+      height,
+      opt,
+      this.scene
+    );
+    extMasonry.material = new BABYLON.StandardMaterial('', this.scene);
+    extMasonry.material.diffuseTexture = new BABYLON.Texture(
+      'http://i.imgur.com/88fOIk3.jpg',
+      this.scene
+    );
+
+    return extMasonry;
+  }
+
+  public createLeanOnRoof(
+    extMasonry,
+    walls,
+    thickness,
+    wallsHeight,
+    roofType,
+    height
+  ): BABYLON.Mesh {
+    const extRoofprint = this.roofPlan.roofprint(
+      this.createCorners(walls),
+      thickness,
+      wallsHeight
+    );
+    this.roofPlan.buildCeiling(extRoofprint, this.scene);
+
+    const extCenter = extMasonry.getBoundingInfo().boundingBox.center;
+    const extMin = extMasonry.getBoundingInfo().minimum;
+    const extMax = extMasonry.getBoundingInfo().maximum;
+
+    const planes = [
+      ['C0', 'C1', 'A1', 'A0'],
+      ['C1', 'C2', 'A1'],
+      ['C2', 'C3', 'A0', 'A1'],
+      ['C3', 'C0', 'A0'],
+    ];
+
+    let extApex = [extMin.x, extMax.z, extMin.x, extMin.z];
+    if (roofType === 'gable') {
+      extApex = [extMin.x, extCenter.z, extMax.x, extCenter.z];
+    }
+    if (roofType === 'hip') {
+      extApex = [extMin.x, extCenter.z, extMin.x, extCenter.z];
+    }
+
+    const extRoof = this.roofPlan.buildRoof(
+      extRoofprint,
+      this.createRoofData(extApex),
+      planes,
+      height,
+      wallsHeight,
+      5.6,
+      this.scene
+    );
+
+    extRoof.material = new BABYLON.StandardMaterial('tiles2', this.scene);
+    extRoof.material.diffuseTexture = new BABYLON.Texture(
+      'https://i.imgur.com/9SH16GZ.jpg',
+      this.scene
+    );
+
+    return extRoof;
+  }
+
+  public createRoof(
+    masonry,
+    walls,
+    thickness,
+    wallsHeight,
+    roofType,
+    height
+  ): BABYLON.Mesh {
+    const center = masonry.getBoundingInfo().boundingBox.center;
+    const min = masonry.getBoundingInfo().minimum;
+    const max = masonry.getBoundingInfo().maximum;
+
+    const roofprint = this.roofPlan.roofprint(
+      this.createCorners(walls),
+      thickness,
+      wallsHeight
+    );
+    const roof = this.roofPlan.buildCeiling(roofprint, this.scene);
+
+    const planes = [
+      ['C0', 'C1', 'A1', 'A0'],
+      ['C1', 'C2', 'A1'],
+      ['C2', 'C3', 'A0', 'A1'],
+      ['C3', 'C0', 'A0'],
+    ];
+
+    let apex = [center.x, center.z, center.x, center.z]; // pyramid
+    const middle = (max.x - min.x) / 3;
+    if (roofType === 'hip1') {
+      apex = [min.x + middle, center.z, max.x - middle, center.z];
+    }
+    if (roofType === 'hip2') {
+      apex = [center.x, max.z - middle, center.x, min.z + middle];
+    }
+    if (roofType === 'terrced1') {
+      apex = [min.x, center.z, max.x, center.z];
+    }
+    if (roofType === 'terrced2') {
+      apex = [center.x, max.z, center.x, min.z];
+    }
+    if (roofType === 'semiUp') {
+      apex = [center.x, center.z, center.x, min.z];
+    }
+    if (roofType === 'semiDown') {
+      apex = [center.x, max.z, center.x, center.z];
+    }
+    if (roofType === 'semiLeft') {
+      apex = [center.x, center.z, max.x, center.z];
+    }
+    if (roofType === 'semiRight') {
+      apex = [min.x, center.z, center.x, center.z];
+    }
+
+    const mainRoof = this.roofPlan.buildRoof(
+      roofprint,
+      this.createRoofData(apex),
+      planes,
+      height,
+      wallsHeight,
+      5.6,
+      this.scene
+    );
+
+    mainRoof.material = new BABYLON.StandardMaterial('tiles', this.scene);
+    mainRoof.material.diffuseTexture = new BABYLON.Texture(
+      'https://i.imgur.com/9SH16GZ.jpg',
+      this.scene
+    );
+    return mainRoof;
+  }
+
   public measure(
     po: { x: number; y: number },
     pt: { x: number; y: number }
@@ -1496,6 +1704,65 @@ export class Bridge {
     for (const wall of this.data.wallData) {
       corners.push(wall.start.x / 100);
       corners.push(wall.start.y / 100);
+    }
+    return corners;
+  }
+
+  public addWallsAndOpenings(
+    height: number,
+    wallData: {
+      start: { x: number; y: number };
+      end: { x: number; y: number };
+    }[],
+    objData: {
+      height: number;
+      size: number;
+      sillHeight: number;
+      x: number;
+      y: number;
+    }[]
+  ): Wall[] {
+    let walls = [] as Wall[];
+    for (const wb of wallData) {
+      const wall = {
+        corner: new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100),
+        windowSpaces: [],
+        doorSpaces: [],
+      };
+      for (const obj of objData) {
+        if (this.objectOnWall(obj, wb)) {
+          const objectFromBottom = (+obj.height + +obj.sillHeight) / 100;
+          // console.log(objectFromBottom);
+          const openSpace = {
+            opening: { width: +obj.size / 100, height: +obj.height / 100 },
+            left: this.measure(wb.start, { x: obj.x, y: obj.y }) / 100,
+            top: height - objectFromBottom,
+          };
+          wall.windowSpaces.push(openSpace);
+        }
+      }
+
+      walls.push(wall);
+    }
+
+    return walls;
+  }
+
+  public createRoofData(roofApexData: number[]) {
+    let apexes = [];
+    for (var i = 0; i < roofApexData.length / 2; i++) {
+      apexes.push(
+        new BABYLON.Vector2(roofApexData[2 * i], roofApexData[2 * i + 1])
+      );
+    }
+
+    return apexes;
+  }
+
+  public createCorners(walls) {
+    let corners = [];
+    for (const wb of walls) {
+      corners.push(new BABYLON.Vector3(wb.start.y / 100, 0, wb.start.x / 100));
     }
     return corners;
   }
