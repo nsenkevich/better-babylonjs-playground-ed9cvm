@@ -1,40 +1,7 @@
 import * as BABYLON from 'babylonjs';
-
-import 'babylonjs-loaders';
-import { AreaCalc } from './core/AreaCalc';
 import { Bridge } from './core/Bridge';
 import { FloorPlan } from './core/FloorPlan';
 import { RoofPlan } from './core/RoofPlan';
-import SceneHelper from './core/SceneHelper';
-
-export interface Opening {
-  width: number;
-  height: number;
-}
-
-export interface OpeningSpace {
-  opening: Opening;
-  left: number;
-  top: number;
-}
-
-export interface Wall {
-  corner: BABYLON.Vector3;
-  windowSpaces: OpeningSpace[];
-  doorSpaces: OpeningSpace[];
-}
-
-export interface Options {
-  interiorUV: BABYLON.Vector4;
-  exteriorUV: BABYLON.Vector4;
-  interiorColor: BABYLON.Color4;
-  exteriorColor: BABYLON.Color4;
-  interior: boolean;
-}
-export interface RoofData {
-  apexes: BABYLON.Vector2[];
-  planes: string[][];
-}
 
 export default class App {
   /**
@@ -51,8 +18,8 @@ export default class App {
       new BABYLON.Vector3(0, 0, 0),
       scene
     );
-    camera.setTarget(BABYLON.Vector3.Zero());
-    camera.attachControl(scene.getEngine().getRenderingCanvas(), true);
+    // camera.setTarget(BABYLON.Vector3.Zero());
+    // camera.attachControl(scene.getEngine().getRenderingCanvas(), true);
 
     const light = new BABYLON.HemisphericLight(
       'light1',
@@ -107,15 +74,10 @@ export default class App {
       'pyramid',
       0.5
     );
-    // const newMesh = BABYLON.Mesh.MergeMeshes([
-    //   mainProperty,
-    //   mainRoof,
-    //   extension,
-    //   extensionRoof,
-    // ]);
-    // const center = newMesh.getBoundingInfo().boundingBox.center;
-    // newMesh.position = new BABYLON.Vector3(-center.x, 0, -center.z);
 
+    const center = mainProperty.getBoundingInfo().boundingBox.center;
+    camera.setTarget(new BABYLON.Vector3(center.x, 0, center.z));
+    camera.attachControl(scene.getEngine().getRenderingCanvas(), true);
     return scene;
   }
 }

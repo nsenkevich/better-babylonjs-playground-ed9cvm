@@ -1738,6 +1738,20 @@ export class Bridge {
             left: this.measure(wb.start, { x: obj.x, y: obj.y }) / 100,
             top: height - objectFromBottom,
           };
+          const box = BABYLON.MeshBuilder.CreateBox(
+            'box',
+            {
+              width: openSpace.opening.width,
+              height: openSpace.opening.height,
+              depth: 0.2,
+            },
+            this.scene
+          );
+          box.position = new BABYLON.Vector3(
+            wall.corner.x,
+            openSpace.top,
+            wall.corner.z
+          );
           wall.windowSpaces.push(openSpace);
         }
       }
