@@ -509,403 +509,100 @@ export class Bridge {
       },
     ],
     wallData: [
-      {
-        extension: null,
-        thick: 20,
-        start: {
-          x: 540,
-          y: 194,
+      [
+        {
+          start: {
+            x: 770,
+            y: 240,
+          },
+          end: {
+            x: 770,
+            y: 690,
+          },
+          child: null,
+          parent: null,
+          equations: null,
+          indexObj: 23,
+          coords: [],
+          thick: 12,
+          type: 'normal',
+          angle: 0,
+          backUp: null,
+          graph: null,
+          floorId: 1,
+          extensionType: 'house',
+          blocked: true,
         },
-        end: {
-          x: 540,
-          y: 704.077965258459,
-        },
-        type: 'normal',
-        parent: 3,
-        child: 1,
-        angle: 1.5707963267948966,
-        equations: {
-          up: {
-            A: 'v',
-            B: 550,
+        {
+          start: {
+            x: 770,
+            y: 690,
           },
-          down: {
-            A: 'v',
-            B: 530,
-          },
-          base: {
-            A: 'v',
-            B: 540,
-          },
-        },
-        coords: [
-          {
-            x: 550,
-            y: 204,
-          },
-          {
-            x: 530,
-            y: 184,
-          },
-          {
-            x: 530,
-            y: 714.077965258459,
-          },
-          {
-            x: 550,
-            y: 694.077965258459,
-          },
-        ],
-        graph: {
-          '0': {},
-          context: {},
-          length: 1,
-        },
-        surface_area: 'NaN',
-        transverse_area: 'NaN',
-      },
-      {
-        extension: null,
-        thick: 20,
-        start: {
-          x: 540,
-          y: 704.077965258459,
-        },
-        end: {
-          x: 1080,
-          y: 704.077965258459,
-        },
-        type: 'normal',
-        parent: 0,
-        child: 2,
-        angle: 0,
-        equations: {
-          up: {
-            A: 'h',
-            B: 694.077965258459,
-          },
-          down: {
-            A: 'h',
-            B: 714.077965258459,
-          },
-          base: {
-            A: 'h',
-            B: 704.077965258459,
-          },
-        },
-        coords: [
-          {
-            x: 550,
-            y: 694.077965258459,
-          },
-          {
-            x: 530,
-            y: 714.077965258459,
-          },
-          {
-            x: 1090,
-            y: 714.077965258459,
-          },
-          {
+          end: {
             x: 1070,
-            y: 694.077965258459,
+            y: 690,
           },
-        ],
-        graph: {
-          '0': {},
-          context: {},
-          length: 1,
+          child: null,
+          parent: null,
+          equations: null,
+          indexObj: 22,
+          coords: [],
+          thick: 12,
+          type: 'normal',
+          angle: 0,
+          backUp: null,
+          graph: null,
+          floorId: 1,
+          extensionType: 'house',
+          blocked: true,
         },
-        surface_area: 'NaN',
-        transverse_area: 'NaN',
-      },
-      {
-        extension: null,
-        thick: 20,
-        start: {
-          x: 1080,
-          y: 704.077965258459,
-        },
-        end: {
-          x: 1080,
-          y: 194,
-        },
-        type: 'normal',
-        parent: 1,
-        child: 3,
-        angle: -1.5707963267948966,
-        equations: {
-          up: {
-            A: 'v',
-            B: 1070,
-          },
-          down: {
-            A: 'v',
-            B: 1090,
-          },
-          base: {
-            A: 'v',
-            B: 1080,
-          },
-        },
-        coords: [
-          {
+        {
+          start: {
             x: 1070,
-            y: 694.077965258459,
+            y: 690,
           },
-          {
-            x: 1090,
-            y: 714.077965258459,
-          },
-          {
-            x: 1090,
-            y: 184,
-          },
-          {
+          end: {
             x: 1070,
-            y: 204,
+            y: 240,
           },
-        ],
-        graph: {
-          '0': {},
-          context: {},
-          length: 1,
+          child: null,
+          parent: null,
+          equations: null,
+          indexObj: 21,
+          coords: [],
+          thick: 12,
+          type: 'separate',
+          angle: 0,
+          backUp: null,
+          graph: null,
+          floorId: 1,
+          extensionType: 'house',
+          blocked: true,
         },
-        surface_area: 'NaN',
-        transverse_area: 'NaN',
-      },
-      {
-        extension: null,
-        thick: 20,
-        start: {
-          x: 1080,
-          y: 194,
-        },
-        end: {
-          x: 540,
-          y: 194,
-        },
-        type: 'normal',
-        parent: 2,
-        child: 0,
-        angle: 3.141592653589793,
-        equations: {
-          up: {
-            A: 'h',
-            B: 204,
-          },
-          down: {
-            A: 'h',
-            B: 184,
-          },
-          base: {
-            A: 'h',
-            B: 194,
-          },
-        },
-        coords: [
-          {
+        {
+          start: {
             x: 1070,
-            y: 204,
+            y: 240,
           },
-          {
-            x: 1090,
-            y: 184,
+          end: {
+            x: 770,
+            y: 240,
           },
-          {
-            x: 530,
-            y: 184,
-          },
-          {
-            x: 550,
-            y: 204,
-          },
-        ],
-        graph: {
-          '0': {},
-          context: {},
-          length: 1,
+          child: null,
+          parent: null,
+          equations: null,
+          indexObj: 20,
+          coords: [],
+          thick: 12,
+          type: 'normal',
+          angle: 0,
+          backUp: null,
+          graph: null,
+          floorId: 1,
+          extensionType: 'house',
+          blocked: true,
         },
-        surface_area: 'NaN',
-        transverse_area: 'NaN',
-      },
-      {
-        extension: 'frontExtension',
-        thick: 20,
-        start: {
-          x: 593,
-          y: 704.077965258459,
-        },
-        end: {
-          x: 593,
-          y: 882,
-        },
-        type: 'normal',
-        parent: null,
-        child: 10,
-        angle: 1.5707963267948966,
-        equations: {
-          up: {
-            A: 'v',
-            B: 603,
-          },
-          down: {
-            A: 'v',
-            B: 583,
-          },
-          base: {
-            A: 'v',
-            B: 593,
-          },
-        },
-        coords: [
-          {
-            x: 603,
-            y: 704.077965258459,
-          },
-          {
-            x: 583,
-            y: 704.077965258459,
-          },
-          {
-            x: 583,
-            y: 892,
-          },
-          {
-            x: 603,
-            y: 872,
-          },
-        ],
-        backUp: false,
-        wall_length: '2.97',
-        wall_length_x: 0,
-        wall_length_y: '2.97',
-        graph: {
-          '0': {},
-          context: {},
-          length: 1,
-        },
-        surface_area: '0.99',
-        transverse_area: 'NaN',
-      },
-      {
-        extension: 'frontExtension',
-        thick: 20,
-        start: {
-          x: 593,
-          y: 882,
-        },
-        end: {
-          x: 1034,
-          y: 882,
-        },
-        type: 'normal',
-        parent: 9,
-        child: 11,
-        angle: 0,
-        equations: {
-          up: {
-            A: 'h',
-            B: 872,
-          },
-          down: {
-            A: 'h',
-            B: 892,
-          },
-          base: {
-            A: 'h',
-            B: 882,
-          },
-        },
-        coords: [
-          {
-            x: 603,
-            y: 872,
-          },
-          {
-            x: 583,
-            y: 892,
-          },
-          {
-            x: 1044,
-            y: 892,
-          },
-          {
-            x: 1024,
-            y: 872,
-          },
-        ],
-        backUp: false,
-        wall_length: '7.35',
-        wall_length_x: '7.35',
-        wall_length_y: 0,
-        graph: {
-          '0': {},
-          context: {},
-          length: 1,
-        },
-        surface_area: '2.45',
-        transverse_area: 'NaN',
-      },
-      {
-        extension: 'frontExtension',
-        thick: 20,
-        start: {
-          x: 1034,
-          y: 882,
-        },
-        end: {
-          x: 1034,
-          y: 704.077965258459,
-        },
-        type: 'normal',
-        parent: 10,
-        child: null,
-        angle: -1.5707963267948966,
-        equations: {
-          up: {
-            A: 'v',
-            B: 1024,
-          },
-          down: {
-            A: 'v',
-            B: 1044,
-          },
-          base: {
-            A: 'v',
-            B: 1034,
-          },
-        },
-        coords: [
-          {
-            x: 1024,
-            y: 872,
-          },
-          {
-            x: 1044,
-            y: 892,
-          },
-          {
-            x: 1044,
-            y: 704.077965258459,
-          },
-          {
-            x: 1024,
-            y: 704.077965258459,
-          },
-        ],
-        backUp: false,
-        wall_length: '2.97',
-        wall_length_x: 0,
-        wall_length_y: '2.97',
-        graph: {
-          '0': {},
-          context: {},
-          length: 1,
-        },
-        surface_area: '0.99',
-        transverse_area: 'NaN',
-      },
+      ],
     ],
     roomData: [
       {

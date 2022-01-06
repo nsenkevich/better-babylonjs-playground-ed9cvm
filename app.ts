@@ -15,7 +15,7 @@ export default class App {
       -Math.PI / 2,
       Math.PI / 2.5,
       10,
-      new BABYLON.Vector3(0, 0, 0),
+      new BABYLON.Vector3(10, 10, 0),
       scene
     );
     // camera.setTarget(BABYLON.Vector3.Zero());
@@ -36,7 +36,7 @@ export default class App {
       exteriorColor: new BABYLON.Color4(1, 1, 1, 1),
       interior: false,
     };
-    let walls = bridge.data.wallData.filter((w) => w.extension === null);
+    let walls = bridge.data.wallData; //.filter((w) => w.floorId === 1);
     const mainProperty = bridge.createMainHouse(
       walls,
       bridge.data.objData,
@@ -54,26 +54,26 @@ export default class App {
       2
     );
 
-    const extWalls = bridge.data.wallData.filter(
-      (w) => w.extension === 'frontExtension'
-    );
-    extWalls.push({ start: extWalls[2].end, end: extWalls[0].start });
-    const extension = bridge.createExtension(
-      extWalls,
-      bridge.data.objData,
-      0.3,
-      2.7,
-      opt
-    );
+    // const extWalls = bridge.data.wallData.filter(
+    //   (w) => w.extension === 'frontExtension'
+    // );
+    // extWalls.push({ start: extWalls[2].end, end: extWalls[0].start });
+    // const extension = bridge.createExtension(
+    //   extWalls,
+    //   bridge.data.objData,
+    //   0.3,
+    //   2.7,
+    //   opt
+    // );
 
-    const extensionRoof = bridge.createLeanOnRoof(
-      extension,
-      extWalls,
-      0.3 + 0.1,
-      2.7,
-      'pyramid',
-      0.5
-    );
+    // const extensionRoof = bridge.createLeanOnRoof(
+    //   extension,
+    //   extWalls,
+    //   0.3 + 0.1,
+    //   2.7,
+    //   'pyramid',
+    //   0.5
+    // );
 
     const center = mainProperty.getBoundingInfo().boundingBox.center;
     camera.setTarget(new BABYLON.Vector3(center.x, 0, center.z));
