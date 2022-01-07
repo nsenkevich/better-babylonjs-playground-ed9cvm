@@ -509,100 +509,98 @@ export class Bridge {
       },
     ],
     wallData: [
-      [
-        {
-          start: {
-            x: 770,
-            y: 240,
-          },
-          end: {
-            x: 770,
-            y: 690,
-          },
-          child: null,
-          parent: null,
-          equations: null,
-          indexObj: 23,
-          coords: [],
-          thick: 12,
-          type: 'normal',
-          angle: 0,
-          backUp: null,
-          graph: null,
-          floorId: 1,
-          extensionType: 'house',
-          blocked: true,
+      {
+        start: {
+          x: 770,
+          y: 240,
         },
-        {
-          start: {
-            x: 770,
-            y: 690,
-          },
-          end: {
-            x: 1070,
-            y: 690,
-          },
-          child: null,
-          parent: null,
-          equations: null,
-          indexObj: 22,
-          coords: [],
-          thick: 12,
-          type: 'normal',
-          angle: 0,
-          backUp: null,
-          graph: null,
-          floorId: 1,
-          extensionType: 'house',
-          blocked: true,
+        end: {
+          x: 770,
+          y: 690,
         },
-        {
-          start: {
-            x: 1070,
-            y: 690,
-          },
-          end: {
-            x: 1070,
-            y: 240,
-          },
-          child: null,
-          parent: null,
-          equations: null,
-          indexObj: 21,
-          coords: [],
-          thick: 12,
-          type: 'separate',
-          angle: 0,
-          backUp: null,
-          graph: null,
-          floorId: 1,
-          extensionType: 'house',
-          blocked: true,
+        child: null,
+        parent: null,
+        equations: null,
+        indexObj: 23,
+        coords: [],
+        thick: 12,
+        type: 'normal',
+        angle: 0,
+        backUp: null,
+        graph: null,
+        floorId: 1,
+        extensionType: 'house',
+        blocked: true,
+      },
+      {
+        start: {
+          x: 770,
+          y: 690,
         },
-        {
-          start: {
-            x: 1070,
-            y: 240,
-          },
-          end: {
-            x: 770,
-            y: 240,
-          },
-          child: null,
-          parent: null,
-          equations: null,
-          indexObj: 20,
-          coords: [],
-          thick: 12,
-          type: 'normal',
-          angle: 0,
-          backUp: null,
-          graph: null,
-          floorId: 1,
-          extensionType: 'house',
-          blocked: true,
+        end: {
+          x: 1070,
+          y: 690,
         },
-      ],
+        child: null,
+        parent: null,
+        equations: null,
+        indexObj: 22,
+        coords: [],
+        thick: 12,
+        type: 'normal',
+        angle: 0,
+        backUp: null,
+        graph: null,
+        floorId: 1,
+        extensionType: 'house',
+        blocked: true,
+      },
+      {
+        start: {
+          x: 1070,
+          y: 690,
+        },
+        end: {
+          x: 1070,
+          y: 240,
+        },
+        child: null,
+        parent: null,
+        equations: null,
+        indexObj: 21,
+        coords: [],
+        thick: 12,
+        type: 'separate',
+        angle: 0,
+        backUp: null,
+        graph: null,
+        floorId: 1,
+        extensionType: 'house',
+        blocked: true,
+      },
+      {
+        start: {
+          x: 1070,
+          y: 240,
+        },
+        end: {
+          x: 770,
+          y: 240,
+        },
+        child: null,
+        parent: null,
+        equations: null,
+        indexObj: 20,
+        coords: [],
+        thick: 12,
+        type: 'normal',
+        angle: 0,
+        backUp: null,
+        graph: null,
+        floorId: 1,
+        extensionType: 'house',
+        blocked: true,
+      },
     ],
     roomData: [
       {
@@ -1202,6 +1200,7 @@ export class Bridge {
     //   { width: 7.5, height: 15 },
     //   scene
     // );
+    console.log('hey2');
 
     const floorData = this.addWallsAndOpenings(height, walls, objs);
     const masonry = this.floorPlan.build(
@@ -1250,6 +1249,8 @@ export class Bridge {
     roofType,
     height
   ): BABYLON.Mesh {
+    console.log('hey2');
+
     const extRoofprint = this.roofPlan.roofprint(
       this.createCorners(walls),
       thickness,
@@ -1303,6 +1304,7 @@ export class Bridge {
     roofType,
     height
   ): BABYLON.Mesh {
+    console.log('hey');
     const center = masonry.getBoundingInfo().boundingBox.center;
     const min = masonry.getBoundingInfo().minimum;
     const max = masonry.getBoundingInfo().maximum;
